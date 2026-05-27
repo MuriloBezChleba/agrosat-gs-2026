@@ -108,11 +108,53 @@
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| DATA-01 to DATA-06 | Phase 1 | Pending |
-| STATS-01 to STATS-07 | Phase 2 | Pending |
-| VIZ-01 to VIZ-06 | Phase 2 | Pending |
-| ML-01 to ML-06 | Phase 3 | Pending |
-| DB-01 to DB-07 | Phase 4 | Pending |
-| AGILE-01 to AGILE-09 | Phase 5 | Pending |
-| ARVR-01 to ARVR-05 | Phase 6 | Pending |
-| DOCS-01 to DOCS-04 | All Phases | Pending |
+| DATA-01 | Phase 1 — Data Foundation | Pending |
+| DATA-02 | Phase 1 — Data Foundation | Pending |
+| DATA-03 | Phase 1 — Data Foundation | Pending |
+| DATA-04 | Phase 1 — Data Foundation | Pending |
+| DATA-05 | Phase 1 — Data Foundation | Pending |
+| DATA-06 | Phase 1 — Data Foundation | Pending |
+| STATS-01 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| STATS-02 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| STATS-03 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| STATS-04 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| STATS-05 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| STATS-06 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| STATS-07 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| VIZ-01 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| VIZ-02 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| VIZ-03 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| VIZ-04 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| VIZ-05 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| VIZ-06 | Phase 2 — Statistical Analysis & Visualizations | Pending |
+| ML-01 | Phase 3 — ML/DL Models | Pending |
+| ML-02 | Phase 3 — ML/DL Models | Pending |
+| ML-03 | Phase 3 — ML/DL Models | Pending |
+| ML-04 | Phase 3 — ML/DL Models | Pending |
+| ML-05 | Phase 3 — ML/DL Models | Pending |
+| ML-06 | Phase 3 — ML/DL Models | Pending |
+| DB-01 | Phase 4 — Database Design | Pending |
+| DB-02 | Phase 4 — Database Design | Pending |
+| DB-03 | Phase 4 — Database Design | Pending |
+| DB-04 | Phase 4 — Database Design | Pending |
+| DB-05 | Phase 4 — Database Design | Pending |
+| DB-06 | Phase 4 — Database Design | Pending |
+| DB-07 | Phase 4 — Database Design | Pending |
+| AGILE-01 | Phase 5 — Agile Documentation | Pending |
+| AGILE-02 | Phase 5 — Agile Documentation | Pending |
+| AGILE-03 | Phase 5 — Agile Documentation | Pending |
+| AGILE-04 | Phase 5 — Agile Documentation | Pending |
+| AGILE-05 | Phase 5 — Agile Documentation | Pending |
+| AGILE-06 | Phase 5 — Agile Documentation | Pending |
+| AGILE-07 | Phase 5 — Agile Documentation | Pending |
+| AGILE-08 | Phase 5 — Agile Documentation | Pending |
+| AGILE-09 | Phase 5 — Agile Documentation | Pending |
+| ARVR-01 | Phase 6 — 3D Modeling & Final Delivery | Pending |
+| ARVR-02 | Phase 6 — 3D Modeling & Final Delivery | Pending |
+| ARVR-03 | Phase 6 — 3D Modeling & Final Delivery | Pending |
+| ARVR-04 | Phase 6 — 3D Modeling & Final Delivery | Pending |
+| ARVR-05 | Phase 6 — 3D Modeling & Final Delivery | Pending |
+| DOCS-01 | Phase 6 — 3D Modeling & Final Delivery | Pending |
+| DOCS-02 | Phase 6 — 3D Modeling & Final Delivery | Pending |
+| DOCS-03 | Phase 6 — 3D Modeling & Final Delivery | Pending |
+| DOCS-04 | Phase 6 — 3D Modeling & Final Delivery | Pending |
