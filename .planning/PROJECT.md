@@ -1,12 +1,12 @@
-# AstroSentinel
+# AgroSat
 
 ## What This Is
 
-AstroSentinel é uma plataforma AI/ML de monitoramento em tempo real de detritos espaciais e predição de risco de colisão para operadores de satélites. Usa dados reais de TLE (Two-Line Elements) da CelesTrak/NASA para treinar modelos LSTM, Autoencoder e Random Forest que alertam operadores sobre conjunções perigosas com 72h de antecedência. Entregável da Global Solution 2026 da FIAP — tema Space Economy.
+AgroSat é uma plataforma SaaS de inteligência agrícola que usa imagens de satélite gratuitas (Sentinel-2/Landsat) e modelos ML/DL para monitorar saúde de lavouras por NDVI, prever produtividade de safras e calcular risco de seca/inundação por propriedade rural. Clientes pagantes: fintechs de crédito rural, cooperativas agrícolas e seguradoras rurais. Entregável da Global Solution 2026 da FIAP — tema Space Economy.
 
 ## Core Value
 
-Operadores de satélites recebem alertas preditivos de colisão com detritos espaciais com antecedência suficiente para manobra — transformando reação em prevenção.
+Fintechs, cooperativas e seguradoras tomam decisões de crédito e seguro rural com visibilidade real da saúde de cada talhão via satélite — substituindo visita técnica cara por dado objetivo e automatizado.
 
 ## Requirements
 
@@ -16,69 +16,72 @@ Operadores de satélites recebem alertas preditivos de colisão com detritos esp
 
 ### Active
 
-- [ ] Sistema carrega e processa dados TLE reais da CelesTrak/NASA
-- [ ] Pipeline de estatística descritiva completa (tendência central, dispersão, outliers, distribuição)
-- [ ] Modelo LSTM prediz trajetória orbital (t+1h, t+6h, t+24h)
-- [ ] Autoencoder detecta anomalias orbitais (decay anômalo, manobras não declaradas)
-- [ ] Random Forest classifica risco de colisão (VERDE/AMARELO/VERMELHO + probabilidade)
-- [ ] Clustering DBSCAN identifica regiões de maior densidade de detritos
-- [ ] Notebook Google Colab completo e executável com análise descritiva
-- [ ] Modelo relacional Oracle com mínimo 6 tabelas (ORBITAL_OBJECT, OBSERVATION, CONJUNCTION, RISK_ALERT, SATELLITE_OP, DECAY_FORECAST)
-- [ ] Documento de requisitos Agile: funcionais, não-funcionais, técnicos, regras de negócio (mín. 7 cada)
-- [ ] Product Backlog com mínimo 12 Histórias de Usuário e critérios de aceite
-- [ ] 3 personas documentadas (engenheira operações, analista política, pesquisador)
-- [ ] Pitch em vídeo de até 5 minutos no YouTube
+- [ ] Pipeline importa série temporal de NDVI calculada de imagens Sentinel-2 reais via Python
+- [ ] Análise estatística descritiva completa (tendência central, dispersão, posicionais, outliers, distribuição)
+- [ ] 5 visualizações obrigatórias (histograma, boxplot, barras, scatterplot, heatmap correlação)
 - [ ] 5 perguntas de negócio respondidas com evidências estatísticas
-- [ ] Visualizações obrigatórias: histograma, boxplot, barras, scatterplot, heatmap de correlação
+- [ ] LSTM treinado para predição de produtividade de safra (t+30, t+60 dias)
+- [ ] Random Forest / XGBoost para scoring de risco por propriedade (BAIXO/MÉDIO/ALTO + score 0–100)
+- [ ] K-Means para segmentação de perfis de propriedades
+- [ ] Notebook Google Colab completo e executável com documentação Markdown
+- [ ] Modelo relacional Oracle com 6 tabelas (PROPERTY, CROP_RECORD, SATELLITE_OBS, CLIMATE_DATA, RISK_ANALYSIS, CREDIT_CONTRACT)
+- [ ] DDL SQL Oracle válido para criação das 6 tabelas com constraints PK/FK
+- [ ] Diagramas Oracle Data Modeler: conceitual (Logical) e lógico-relacional (Relational)
+- [ ] Documento Agile: 3 personas, 7+ requisitos por categoria, 12+ User Stories com DoD
+- [ ] Vídeo Pitch YouTube (máx 5 min) mostrando problema, oportunidade de mercado, solução
+- [ ] Objeto 3D Blender: satélite Sentinel-2 + talhão agrícola com visualização NDVI, 13+ prints
 
 ### Out of Scope
 
-- Interface web em tempo real — prazo da GS não permite frontend completo
-- Integração com Space-Track.org API autenticada — usar datasets públicos CelesTrak
-- Sistema de manobra autônoma — fora do escopo acadêmico
-- Deploy em produção / cloud — entrega local/Colab
+- Interface web em tempo real — prazo de 14 dias inviabiliza frontend completo
+- Integração real com API Sentinel Hub paga — usar dados via Google Earth Engine gratuito ou dataset Kaggle
+- Sistema de recomendação de insumos (fertilizantes, defensivos) — fora do prazo
+- Deploy em produção cloud — entrega em Colab
+- Processamento de imagens raw Sentinel-2 (.tif) — usar dataset NDVI pré-calculado para agilizar
 
 ## Context
 
-**Contexto acadêmico:** Global Solution 2026, FIAP, 2º ano Engenharia de Software. Prazo: 09/06/2026. Grupo de até 5 pessoas. Entrega em PDF + links.
+**Contexto acadêmico:** Global Solution 2026, FIAP, 2º ano Engenharia de Software. Prazo: 09/06/2026. Grupo de até 5 pessoas.
+
+**Mercado real:**
+- Crédito rural Brasil: R$300B+/ano (Plano Safra 2025/2026)
+- BACEN Resolução 4.945/2021: obriga bancos a avaliar risco climático em crédito
+- Precisão Agriculture global: USD 14B (2025), CAGR 13%/ano
+- Clientes pagantes: Agrolend, Traive, cooperativas (Coamo, C.Vale), seguradoras rurais
+
+**Datasets (gratuitos):**
+- Sentinel-2 L2A via Google Earth Engine
+- INMET/BDMEP (dados climáticos históricos Brasil)
+- MapBiomas Coleção 9 (uso do solo)
+- IBGE Censo Agropecuário (produtividade histórica)
+- Kaggle: "Brazilian Agriculture" datasets como fallback para Colab
 
 **Disciplinas e entregáveis:**
-- Data Science: Notebook Google Colab (estatística descritiva, Python, visualizações, 5+ perguntas negócio)
-- Agile Methodology: PDF (requisitos, personas, backlog 12+ US, pitch vídeo 5min YouTube)
-- Database Design: PDF (DDL Oracle, modelos conceitual+lógico Oracle Data Modeler, mín. 5 tabelas)
-- AR/VR: PDF (13+ prints Blender, objetos 3D tema viagens espaciais)
-
-**Datasets disponíveis:**
-- CelesTrak TLE data (público, sem autenticação)
-- ESA DISCOS Space Debris Statistics
-- NASA CNEOS NEO Close Approaches
-- NASA Open Data Portal
-
-**Referências GitHub:**
-- SpaceTrash (ML para LEO debris)
-- AstroCleanAI (YOLOv5 + XGBoost)
-- Satellite Telemetry Anomaly Detection (autoencoders)
-- NASA GIBS ML (imagens satelitais)
+- Data Science: Notebook Colab (estatística NDVI + clima, visualizações, 5 perguntas negócio)
+- Agile: PDF (requisitos, personas crédito/cooperativa/produtor, backlog 12+ US, pitch)
+- Database Design: PDF Oracle (6 tabelas, DDL, modelos conceitual+lógico)
+- AR/VR: PDF Blender (satélite 3D + talhão, 13+ prints)
 
 ## Constraints
 
-- **Timeline**: Entrega 09/06/2026 — ~14 dias
-- **Plataforma Data Science**: Google Colab (sem dependências locais pesadas)
+- **Timeline**: Entrega 09/06/2026 — 14 dias
+- **Plataforma**: Google Colab (sem dependências locais pesadas)
 - **Banco de Dados**: Oracle 19c (requisito Database Design FIAP)
 - **3D**: Blender 4.x (requisito AR/VR FIAP)
-- **Dados**: Apenas datasets públicos (sem API keys pagas)
-- **Linguagem código**: Python 3.11+
-- **Formato entrega**: PDF para disciplinas + link Colab + link YouTube
+- **Dados**: Apenas gratuitos (Google Earth Engine free tier, INMET aberto, Kaggle)
+- **Linguagem**: Python 3.11+
+- **Entrega**: PDF por disciplina + link Colab + link YouTube
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Tema: detritos espaciais | Conecta todos os entregáveis, dados NASA públicos disponíveis, ML aplicável | — Pending |
-| Stack ML: sklearn + TensorFlow/Keras | Roda no Colab sem configuração, bem documentado, equipe familiarizada | — Pending |
-| DB: Oracle 19c | Requisito obrigatório da disciplina Database Design | — Pending |
-| 3D: Blender | Requisito obrigatório da disciplina AR/VR | — Pending |
-| Dados: CelesTrak TLE público | Sem autenticação, atualizado diariamente, formato padrão da indústria | — Pending |
+| Tema: inteligência agrícola via satélite | Mercado B2B real (crédito rural R$300B+), dados gratuitos, ML aplicável, Brasil = líder agro mundial | — Pending |
+| Dataset principal: NDVI Sentinel-2 + INMET | Gratuitos, dados reais, volume suficiente (50k+ obs), padrão indústria | — Pending |
+| Clientes primários: fintechs crédito rural | BACEN obriga avaliação risco climático, dor real, disposição a pagar clara | — Pending |
+| Stack ML: sklearn + TensorFlow/Keras + XGBoost | Roda no Colab, bem documentado, cobre CNN/LSTM/RF/XGBoost | — Pending |
+| DB: Oracle 19c | Requisito obrigatório disciplina Database Design | — Pending |
+| 3D: Blender | Requisito obrigatório disciplina AR/VR | — Pending |
 
 ## Evolution
 
@@ -89,13 +92,11 @@ Este documento evolui a cada transição de fase e marco de milestone.
 2. Requisitos validados? → Mover para Validated com referência da fase
 3. Novos requisitos emergiram? → Adicionar em Active
 4. Decisões para registrar? → Adicionar em Key Decisions
-5. "What This Is" ainda preciso? → Atualizar se derivou
 
 **Após cada milestone** (via `/gsd-complete-milestone`):
 1. Revisão completa de todas as seções
 2. Core Value check — ainda é a prioridade certa?
-3. Auditoria de Out of Scope — motivos ainda válidos?
-4. Atualizar Context com estado atual
+3. Auditoria Out of Scope — motivos ainda válidos?
 
 ---
-*Last updated: 2026-05-26 after initialization*
+*Last updated: 2026-05-26 after pivot to AgroSat (agricultural intelligence via satellite)*

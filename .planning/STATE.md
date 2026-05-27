@@ -1,6 +1,6 @@
-# AstroSentinel — Project State
+# AgroSat — Project State
 
-**Project:** AstroSentinel — Plataforma AI/ML de Monitoramento de Detritos Espaciais
+**Project:** AgroSat — Plataforma de Inteligência Agrícola por Satélite
 **Milestone:** Global Solution 2026
 **Last Updated:** 2026-05-26
 
@@ -8,21 +8,20 @@
 
 ## Project Reference
 
-**Core Value:** Operadores de satélites recebem alertas preditivos de colisão com detritos espaciais com antecedência suficiente para manobra — transformando reação em prevenção.
+**Core Value:** Fintechs, cooperativas e seguradoras tomam decisões de crédito e seguro rural com visibilidade real da saúde de cada talhão via satélite — substituindo visita técnica cara por dado objetivo.
 
-**Deadline:** 09/06/2026 (~14 days from 2026-05-26)
+**Deadline:** 09/06/2026 (~14 dias a partir de 2026-05-26)
 
-**Deliverable format:** PDF por disciplina + link Colab + link YouTube
+**Clientes pagantes:** Fintechs crédito rural (Agrolend, Traive) | Cooperativas (Coamo, C.Vale) | Seguradoras rurais
 
 ---
 
 ## Current Position
 
 **Current Phase:** Phase 1 — Data Foundation
-**Current Plan:** TBD (not yet planned)
-**Status:** Not started
+**Status:** Not started — ready to plan
 
-**Progress Bar:**
+**Progress:**
 ```
 Phase 1 [          ] 0%   Data Foundation
 Phase 2 [          ] 0%   Statistical Analysis & Visualizations
@@ -38,61 +37,46 @@ Phase 6 [          ] 0%   3D Modeling & Final Delivery
 
 ## Phase Summary
 
-| Phase | Name | Requirements | Status |
-|-------|------|--------------|--------|
-| 1 | Data Foundation | DATA-01..06 (6 reqs) | Not started |
-| 2 | Statistical Analysis & Visualizations | STATS-01..07, VIZ-01..06 (13 reqs) | Not started |
-| 3 | ML/DL Models | ML-01..06 (6 reqs) | Not started |
-| 4 | Database Design | DB-01..07 (7 reqs) | Not started |
-| 5 | Agile Documentation | AGILE-01..09 (9 reqs) | Not started |
-| 6 | 3D Modeling & Final Delivery | ARVR-01..05, DOCS-01..04 (9 reqs) | Not started |
+| Phase | Name | Requirements | Dependency | Status |
+|-------|------|--------------|------------|--------|
+| 1 | Data Foundation | DATA-01..06 (6) | None | Not started |
+| 2 | Statistical Analysis & Viz | STATS-01..07, VIZ-01..06 (13) | Phase 1 | Not started |
+| 3 | ML/DL Models | ML-01..05 (5) | Phase 1 | Not started |
+| 4 | Database Design | DB-01..07 (7) | Phase 1 | Not started |
+| 5 | Agile Documentation | AGILE-01..09 (9) | **None** ← paralelo | Not started |
+| 6 | 3D & Final Delivery | ARVR-01..05, DOCS-01..04 (9) | All | Not started |
 
 ---
 
-## Performance Metrics
-
-- **Requirements total:** 49
-- **Requirements complete:** 0
-- **Phases complete:** 0/6
-- **Days remaining:** ~14 (deadline 09/06/2026)
-
----
-
-## Accumulated Context
-
-### Key Decisions
+## Key Decisions
 
 | Decision | Rationale | Phase |
 |----------|-----------|-------|
-| Phase 5 (Agile) has no dependency on Phases 1-4 | Agile docs are independent of technical implementation and can be worked on in parallel to save time | All |
-| DOCS-01..04 mapped to Phase 6 | Final submission checks require all prior phases to be complete before the Colab link is finalized and PDFs are compiled | 6 |
-| Phases 1 and 3 both depend on Phase 1 independently | ML pipeline (Phase 3) and stats/viz (Phase 2) both need the clean dataset from Phase 1 but can proceed in parallel after Phase 1 | 2, 3 |
+| Pivot: AstroSentinel → AgroSat | Crédito rural B2B tem mercado real (R$300B+), dados gratuitos, dor clara | Init |
+| Phase 5 (Agile) independente | Documentação Agile não depende de código — pode rodar em paralelo | All |
+| Dataset: NDVI Sentinel-2 pré-calculado | Evita processamento raw .tif (lento no Colab), mantém dados reais | Phase 1 |
+| Clientes primários: fintechs | BACEN 4.945/2021 obriga avaliação risco climático em crédito rural | All |
 
-### Active Todos
+## Active Todos
 
-- [ ] Start Phase 1: download CelesTrak TLE data and open Colab notebook
-- [ ] Set up GitHub repository with project structure
-- [ ] Assign team members to parallel tracks (Agile docs can start immediately)
+- [ ] Iniciar Phase 1: encontrar dataset NDVI no Kaggle ou Google Earth Engine e abrir Colab
+- [ ] Phase 5 pode começar AGORA em paralelo (sem dependência técnica)
+- [ ] Definir composição da equipe e atribuir fases por membro
 
-### Blockers
+## Open Questions
 
-(None)
-
-### Open Questions
-
-- Which specific TLE dataset to use from CelesTrak (active debris, all objects, or specific catalog)?
-- Team composition: how many members working on which tracks simultaneously?
+- Dataset NDVI: usar Kaggle ("Brazil Agriculture") ou Google Earth Engine?
+- Região foco: Paraná (soja/milho) ou Mato Grosso? → Mato Grosso tem mais volume de dados
+- Quantos membros na equipe e quem faz qual fase?
 
 ---
 
 ## Session Continuity
 
-**Last session summary:** Roadmap and STATE initialized on 2026-05-26 via /gsd-new-project. No implementation work done yet.
+**Last session:** Projeto inicializado 2026-05-26. Pivotado de AstroSentinel (detritos espaciais) para AgroSat (inteligência agrícola) após feedback de valor de negócio. CLAUDE.md, PROJECT.md, REQUIREMENTS.md, ROADMAP.md todos atualizados.
 
-**Next action:** Run `/gsd-plan-phase 1` to break Phase 1 into executable tasks (Data Foundation).
-
-**Parallel opportunity:** Phase 5 (Agile Documentation) can start immediately and does not depend on any technical phase. Consider assigning a team member to it while others work Phase 1.
+**Next action:** `/gsd-plan-phase 1` para planejar Data Foundation OU `/gsd-plan-phase 5` para Agile docs (pode começar imediatamente em paralelo).
 
 ---
 
-*This file is updated at each phase transition and plan execution. Do not edit manually except in Key Decisions and Active Todos sections.*
+*Atualizado a cada transição de fase. Não editar manualmente exceto Key Decisions e Active Todos.*

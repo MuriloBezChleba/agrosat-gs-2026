@@ -1,103 +1,103 @@
-# AstroSentinel — Roadmap
+# AgroSat — Roadmap
 
-**Project:** AstroSentinel — Plataforma AI/ML de Monitoramento de Detritos Espaciais
+**Project:** AgroSat — Plataforma de Inteligência Agrícola por Satélite
 **Milestone:** Global Solution 2026 — Entrega 09/06/2026
-**Generated:** 2026-05-26
+**Generated:** 2026-05-26 (updated after pivot from AstroSentinel)
 **Granularity:** Standard (6 phases)
-**Coverage:** 44/44 v1 requirements mapped
+**Coverage:** 47/47 v1 requirements mapped
 
 ---
 
 ## Phases
 
-- [ ] **Phase 1: Data Foundation** — Import TLE data, clean, and prepare the analysis pipeline
-- [ ] **Phase 2: Statistical Analysis & Visualizations** — Descriptive stats, 5 business questions, and all 5 required chart types
-- [ ] **Phase 3: ML/DL Models** — LSTM trajectory prediction, Autoencoder anomaly detection, Random Forest classifier, DBSCAN clustering
-- [ ] **Phase 4: Database Design** — Oracle relational model with 6 tables, DDL scripts, conceptual and logical diagrams
-- [ ] **Phase 5: Agile Documentation** — Personas, requirements catalog, product backlog, pitch video
-- [ ] **Phase 6: 3D Modeling & Final Delivery** — Blender 3D objects, 13 prints, compiled PDFs, finalized Colab
+- [ ] **Phase 1: Data Foundation** — Importar NDVI + clima, limpar, preparar dataset analítico
+- [ ] **Phase 2: Statistical Analysis & Visualizations** — Estatística descritiva completa, 5 perguntas de negócio, 5 tipos de gráfico
+- [ ] **Phase 3: ML/DL Models** — LSTM produtividade, XGBoost risco, K-Means segmentação
+- [ ] **Phase 4: Database Design** — Modelo Oracle 6 tabelas, DDL, diagramas conceitual e lógico
+- [ ] **Phase 5: Agile Documentation** — Personas, requisitos, backlog 12+ US, pitch video
+- [ ] **Phase 6: 3D Modeling & Final Delivery** — Blender satélite + talhão, 13+ prints, PDFs finais
 
 ---
 
 ## Phase Details
 
 ### Phase 1: Data Foundation
-**Goal**: The Colab notebook loads real TLE data from CelesTrak, cleans it, and produces a ready-to-analyze dataset of 1,000+ orbital objects.
+**Goal:** Notebook Colab carrega série temporal NDVI (Sentinel-2) + dados climáticos INMET, limpa e produz dataset analítico com 1.000+ registros pronto para análise.
 **Mode:** mvp
-**Depends on**: Nothing (first phase)
-**Requirements**: DATA-01, DATA-02, DATA-03, DATA-04, DATA-05, DATA-06
-**Success Criteria** (what must be TRUE):
-  1. Running the notebook cell imports TLE data from a public CelesTrak URL without authentication errors and produces a DataFrame.
-  2. Notebook output shows shape, dtypes, and head confirming at least 1,000 rows with columns NORAD_ID, nome, tipo, altitude, inclinacao, eccentricidade, periodo, epoca.
-  3. Notebook cells show explicit fillna/dropna calls with Markdown justifying each choice, and a duplicate-removal step with before/after row counts.
-  4. A Markdown cell in the notebook explains the problem (space debris), its relevance to the space economy, and the analysis objective.
-**Plans**: TBD
+**Depends on:** Nothing (first phase)
+**Requirements:** DATA-01, DATA-02, DATA-03, DATA-04, DATA-05, DATA-06
+**Success Criteria:**
+  1. Célula importa dados NDVI de fonte pública (GEE ou Kaggle) sem erro e produz DataFrame com shape confirmado no output.
+  2. Output confirma 1.000+ linhas com colunas: property_id, obs_date, ndvi_mean, ndvi_std, evi_mean, cloud_cover_pct, satellite.
+  3. Células de fillna/dropna mostram justificativa em Markdown; célula de deduplicação mostra contagem before/after.
+  4. Célula Markdown explica o problema (crédito rural sem visibilidade), relevância, conexão com economia espacial (satélite), objetivo.
+**Plans:** TBD
 
 ### Phase 2: Statistical Analysis & Visualizations
-**Goal**: The notebook answers 5 business questions with complete descriptive statistics and all 5 mandatory chart types, each interpreted in writing.
+**Goal:** Notebook responde 5 perguntas de negócio com estatística descritiva completa e 5 tipos de gráfico obrigatórios, cada um interpretado em texto.
 **Mode:** mvp
-**Depends on**: Phase 1
-**Requirements**: STATS-01, STATS-02, STATS-03, STATS-04, STATS-05, STATS-06, STATS-07, VIZ-01, VIZ-02, VIZ-03, VIZ-04, VIZ-05, VIZ-06
-**Success Criteria** (what must be TRUE):
-  1. Notebook cells display mean, median, and mode for each numeric variable; amplitude, variance, std deviation, and coefficient of variation; Q1/Q2/Q3 and percentiles 10/25/50/75/90.
-  2. At least one outlier detection cell uses IQR or Z-Score and labels identified outliers in the output.
-  3. The notebook contains exactly 5 labeled business question sections, each concluding with a statistical evidence statement tied to computed values.
-  4. Five distinct chart cells are present and render: histogram, boxplot, bar chart, scatter plot, heatmap — each with title, axis labels, and a written analytical interpretation below.
-  5. A Markdown conclusion cell summarizes key findings, insights, practical applications, and known limitations of the analysis.
-**Plans**: TBD
+**Depends on:** Phase 1
+**Requirements:** STATS-01, STATS-02, STATS-03, STATS-04, STATS-05, STATS-06, STATS-07, VIZ-01, VIZ-02, VIZ-03, VIZ-04, VIZ-05, VIZ-06
+**Success Criteria:**
+  1. Células calculam e exibem média/mediana/moda, amplitude/variância/desvio padrão/CV, Q1/Q2/Q3 e percentis 10/25/50/75/90 para NDVI e variáveis climáticas.
+  2. Célula de outliers usa IQR ou Z-Score e identifica talhões com NDVI anômalo (possíveis sinistros).
+  3. 5 seções de perguntas de negócio, cada uma conclui com evidência estatística citando valor calculado (ex: "o desvio padrão de 0.23 indica...").
+  4. 5 gráficos distintos renderizam: histograma NDVI, boxplot por cultura, barras por município, scatter NDVI×precipitação, heatmap correlação — cada um com título, eixos e interpretação escrita abaixo.
+  5. Célula Markdown de conclusão resume achados principais, insights, aplicações práticas e limitações.
+**Plans:** TBD
 
 ### Phase 3: ML/DL Models
-**Goal**: The notebook trains and evaluates four models — LSTM, Autoencoder, Random Forest, DBSCAN — and documents the full ML pipeline from preprocessing to inference.
+**Goal:** Notebook treina e avalia 3 modelos — LSTM (produtividade), XGBoost (risco), K-Means (segmentação) — com métricas e pipeline documentado.
 **Mode:** mvp
-**Depends on**: Phase 1
-**Requirements**: ML-01, ML-02, ML-03, ML-04, ML-05, ML-06
-**Success Criteria** (what must be TRUE):
-  1. LSTM model cell trains on historical TLE sequences and outputs RMSE for t+1h, t+6h, and t+24h prediction horizons.
-  2. Autoencoder model cell trains and outputs reconstruction error distribution; a threshold cell flags anomalous objects.
-  3. Random Forest model cell outputs a classification report showing precision, recall, and F1 for VERDE/AMARELO/VERMELHO risk classes.
-  4. DBSCAN (or K-Means) clustering cell produces a labeled scatter plot of debris density regions by altitude x inclination.
-  5. A pipeline summary Markdown documents each step: preprocessing, training, evaluation, and a sample inference call for each model.
-**Plans**: TBD
+**Depends on:** Phase 1
+**Requirements:** ML-01, ML-02, ML-03, ML-04, ML-05
+**Success Criteria:**
+  1. LSTM treina em séries temporais NDVI+clima e reporta RMSE para t+30 e t+60 dias de produtividade.
+  2. XGBoost treina classificador de risco (BAIXO/MÉDIO/ALTO) e exibe classification report com precision/recall/F1 por classe.
+  3. K-Means (k=4–6) produz scatter plot colorido de clusters de propriedades por perfil de risco/produtividade.
+  4. Cada modelo tem seção Markdown documentando: pré-processamento, treino, avaliação, exemplo de inferência.
+  5. Tabela resumo compara métricas dos 3 modelos.
+**Plans:** TBD
 
 ### Phase 4: Database Design
-**Goal**: A PDF deliverable presents the complete Oracle relational model — 6 tables with DDL scripts, column specifications, and both conceptual and logical diagrams.
+**Goal:** PDF entregável apresenta modelo Oracle relacional completo — 6 tabelas, DDL, especificação de colunas, diagramas conceitual e lógico.
 **Mode:** mvp
-**Depends on**: Phase 1
-**Requirements**: DB-01, DB-02, DB-03, DB-04, DB-05, DB-06, DB-07
-**Success Criteria** (what must be TRUE):
-  1. The document lists all 6 required tables (ORBITAL_OBJECT, OBSERVATION, CONJUNCTION, RISK_ALERT, SATELLITE_OP, DECAY_FORECAST), each with a purpose description.
-  2. Every column definition shows name, data type, size, NOT NULL constraint where applicable, and PK/FK/UK designation with a description.
-  3. Oracle Data Modeler screenshots show a conceptual diagram (entities, attributes, cardinalities) and a logical/relational diagram (tables, PKs, FKs).
-  4. DDL SQL script executes without errors on Oracle 19c and creates all 6 tables with correct constraints.
-  5. PDF has a cover page (title + team member names and RMs) and a table of contents.
-**Plans**: TBD
+**Depends on:** Phase 1
+**Requirements:** DB-01, DB-02, DB-03, DB-04, DB-05, DB-06, DB-07
+**Success Criteria:**
+  1. Documento lista 6 tabelas (PROPERTY, CROP_RECORD, SATELLITE_OBS, CLIMATE_DATA, RISK_ANALYSIS, CREDIT_CONTRACT) cada com descrição.
+  2. Toda coluna tem: nome, tipo Oracle, tamanho, NOT NULL onde aplicável, PK/FK/UK indicados, descrição.
+  3. Screenshots Oracle Data Modeler mostram diagrama conceitual (Logical) e lógico-relacional (Relational) com cardinalidades.
+  4. DDL SQL executa sem erros no Oracle 19c e cria as 6 tabelas com constraints corretos.
+  5. PDF tem capa (título + nomes + RMs) e sumário.
+**Plans:** TBD
 
 ### Phase 5: Agile Documentation
-**Goal**: A PDF deliverable presents the complete Agile artifact set — personas, full requirements catalog, product backlog with 12+ user stories, and a YouTube pitch video.
+**Goal:** PDF apresenta conjunto Agile completo — personas, 7+ requisitos por categoria, backlog 12+ US com DoD, vídeo pitch no YouTube.
 **Mode:** mvp
-**Depends on**: Nothing (can run in parallel with Phases 1-4)
-**Requirements**: AGILE-01, AGILE-02, AGILE-03, AGILE-04, AGILE-05, AGILE-06, AGILE-07, AGILE-08, AGILE-09
-**Success Criteria** (what must be TRUE):
-  1. Document contains project name, all team members (name + RM), challenge description, and proposed solution in the opening section.
-  2. Three personas are documented with name, age, organization, pains, and gains for each (operations engineer, policy analyst, researcher).
-  3. Requirements section lists at least 7 Functional Requirements, 7 Non-Functional Requirements, 7 Technical Requirements, and 7 Business Rules, each in the specified format.
-  4. Product Backlog section contains Epics and at least 12 User Stories with Definition of Done for each story.
-  5. A YouTube video (up to 5 minutes, accessible via private link) shows problem, market opportunity, proposed solution, and screen sketches.
-**Plans**: TBD
+**Depends on:** Nothing (pode rodar em paralelo com Phases 1-4)
+**Requirements:** AGILE-01, AGILE-02, AGILE-03, AGILE-04, AGILE-05, AGILE-06, AGILE-07, AGILE-08, AGILE-09
+**Success Criteria:**
+  1. Seção de abertura: nome AgroSat, todos os membros (nome + RM), desafio de crédito rural, solução.
+  2. Público-alvo com dados: mercado crédito rural R$300B+, CAGR 13%, impacto BACEN 4.945/2021.
+  3. 3 personas documentadas: analista crédito (fintech), gestora cooperativa, produtor rural — cada com nome, idade, org, dores, ganhos.
+  4. Mínimo 7 de cada: Requisitos Funcionais, Não-Funcionais, Técnicos e Regras de Negócio.
+  5. Product Backlog com Épicos e 12+ Histórias de Usuário com Definition of Done.
+  6. Vídeo YouTube ≤5min (link privado acessível) com problema, oportunidade, solução e esboços de tela.
+**Plans:** TBD
 
 ### Phase 6: 3D Modeling & Final Delivery
-**Goal**: The Blender 3D model deliverable is complete and all PDFs are compiled, submitted, and the Colab link is finalized for submission by 09/06/2026.
+**Goal:** Blender entregável completo (satélite + talhão 3D, 13+ prints) e todos os PDFs compilados, links finalizados e submetidos até 09/06/2026.
 **Mode:** mvp
-**Depends on**: Phases 1, 2, 3, 4, 5
-**Requirements**: ARVR-01, ARVR-02, ARVR-03, ARVR-04, ARVR-05, DOCS-01, DOCS-02, DOCS-03, DOCS-04
-**Success Criteria** (what must be TRUE):
-  1. Blender file contains at least 1 space-themed 3D object (satellite, debris, spacecraft, or station) that goes beyond basic primitives and includes elements like solar panels, antennae, or orbital structures.
-  2. PDF document contains at least 13 captioned screenshots of the Blender model from different angles and construction stages.
-  3. Colab notebook is set to "Anyone with the link can view" and all cells execute end-to-end without errors.
-  4. All PDF deliverables (Database Design, Agile, AR/VR) include full team identification (name + RM) on the cover or first page.
-  5. All files are submitted via Teams/Portal do Aluno before 09/06/2026 23h59, and the GitHub README documents project structure and execution instructions.
-**Plans**: TBD
-**UI hint**: yes
+**Depends on:** Phases 1, 2, 3, 4, 5
+**Requirements:** ARVR-01, ARVR-02, ARVR-03, ARVR-04, ARVR-05, DOCS-01, DOCS-02, DOCS-03, DOCS-04
+**Success Criteria:**
+  1. Blender: satélite Sentinel-2 3D com painéis solares, antenas, complexidade além de primitivas básicas.
+  2. Blender: talhão agrícola 3D com heatmap NDVI aplicado como textura (verde/amarelo/vermelho).
+  3. PDF AR/VR contém 13+ prints de ângulos variados com legendas explicativas.
+  4. Colab configurado como "qualquer pessoa com link pode visualizar" e executa end-to-end sem erros.
+  5. Todos os PDFs entregues via Teams/Portal antes de 09/06/2026 23h59 com nome+RM de todos os membros.
+**Plans:** TBD
 
 ---
 
@@ -118,59 +118,17 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
-| DATA-03 | Phase 1 | Pending |
-| DATA-04 | Phase 1 | Pending |
-| DATA-05 | Phase 1 | Pending |
-| DATA-06 | Phase 1 | Pending |
-| STATS-01 | Phase 2 | Pending |
-| STATS-02 | Phase 2 | Pending |
-| STATS-03 | Phase 2 | Pending |
-| STATS-04 | Phase 2 | Pending |
-| STATS-05 | Phase 2 | Pending |
-| STATS-06 | Phase 2 | Pending |
-| STATS-07 | Phase 2 | Pending |
-| VIZ-01 | Phase 2 | Pending |
-| VIZ-02 | Phase 2 | Pending |
-| VIZ-03 | Phase 2 | Pending |
-| VIZ-04 | Phase 2 | Pending |
-| VIZ-05 | Phase 2 | Pending |
-| VIZ-06 | Phase 2 | Pending |
-| ML-01 | Phase 3 | Pending |
-| ML-02 | Phase 3 | Pending |
-| ML-03 | Phase 3 | Pending |
-| ML-04 | Phase 3 | Pending |
-| ML-05 | Phase 3 | Pending |
-| ML-06 | Phase 3 | Pending |
-| DB-01 | Phase 4 | Pending |
-| DB-02 | Phase 4 | Pending |
-| DB-03 | Phase 4 | Pending |
-| DB-04 | Phase 4 | Pending |
-| DB-05 | Phase 4 | Pending |
-| DB-06 | Phase 4 | Pending |
-| DB-07 | Phase 4 | Pending |
-| AGILE-01 | Phase 5 | Pending |
-| AGILE-02 | Phase 5 | Pending |
-| AGILE-03 | Phase 5 | Pending |
-| AGILE-04 | Phase 5 | Pending |
-| AGILE-05 | Phase 5 | Pending |
-| AGILE-06 | Phase 5 | Pending |
-| AGILE-07 | Phase 5 | Pending |
-| AGILE-08 | Phase 5 | Pending |
-| AGILE-09 | Phase 5 | Pending |
-| ARVR-01 | Phase 6 | Pending |
-| ARVR-02 | Phase 6 | Pending |
-| ARVR-03 | Phase 6 | Pending |
-| ARVR-04 | Phase 6 | Pending |
-| ARVR-05 | Phase 6 | Pending |
-| DOCS-01 | Phase 6 | Pending |
-| DOCS-02 | Phase 6 | Pending |
-| DOCS-03 | Phase 6 | Pending |
-| DOCS-04 | Phase 6 | Pending |
+| DATA-01..06 | Phase 1 | Pending |
+| STATS-01..07 | Phase 2 | Pending |
+| VIZ-01..06 | Phase 2 | Pending |
+| ML-01..05 | Phase 3 | Pending |
+| DB-01..07 | Phase 4 | Pending |
+| AGILE-01..09 | Phase 5 | Pending |
+| ARVR-01..05 | Phase 6 | Pending |
+| DOCS-01..04 | Phase 6 | Pending |
 
-**Total: 49/49 requirements mapped** (DATA: 6, STATS: 7, VIZ: 6, ML: 6, DB: 7, AGILE: 9, ARVR: 5, DOCS: 4)
+**Total: 47/47 requirements mapped**
 
 ---
 
-*Last updated: 2026-05-26 after roadmap initialization*
+*Last updated: 2026-05-26 after pivot to AgroSat (agricultural satellite intelligence)*

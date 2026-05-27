@@ -1,166 +1,195 @@
-# AstroSentinel — Plataforma de Monitoramento Inteligente de Detritos Espaciais
+# AgroSat — Plataforma de Inteligência Agrícola por Satélite
 
 ## Visão do Projeto
 
-**AstroSentinel** é uma plataforma AI/ML de monitoramento em tempo real de detritos espaciais e predição de risco de colisão para operadores de satélites. Usa dados reais de TLE (Two-Line Elements) da CelesTrak/NASA para treinar modelos preditivos que alertam operadores sobre conjunções perigosas antes que ocorram.
+**AgroSat** é uma plataforma SaaS de inteligência agrícola que usa imagens de satélite gratuitas (Sentinel-2/Landsat) e modelos de ML/DL para monitorar saúde de lavouras, prever produtividade de safras e calcular risco de seca/inundação por propriedade rural. Entrega valor direto para fintechs de crédito rural, cooperativas agrícolas e seguradoras.
 
-**Problema**: Existem >27.000 detritos rastreáveis em órbita. Colisões destroem satélites ativos (economia espacial estimada em USD 469 bi até 2030). Ferramentas atuais são reativas; AstroSentinel é preditivo.
+**Problema**: Fintechs de crédito rural emprestam R$300B+/ano sem visibilidade real de risco por talhão. Seguradoras pagam bilhões em sinistros que poderiam ser precificados melhor. Cooperativas não têm forecast de safra antecipado. Dados de satélite que resolvem isso existem e são GRATUITOS — mas ninguém processou para esses clientes.
 
-**Diferencial**: Combinação de LSTM (trajetória) + Autoencoder (anomalia orbital) + Random Forest (risco) + dashboard em tempo real — tudo open-source e baseado em dados públicos da NASA.
+**Diferencial**: Pipeline completo de NDVI → LSTM → Random Forest rodando em dados reais do Sentinel-2/INMET — open-source, reprodutível no Colab, pronto para integração via API.
 
 ---
 
 ## Tema Global Solution 2026 — Space Economy
 
-AstroSentinel cobre todos os entregáveis da GS deste semestre:
+AgroSat usa tecnologia espacial (imagens de satélite) para impacto econômico real no agronegócio brasileiro. Cobre todos os entregáveis da GS:
 
 | Disciplina | Entregável | Como se aplica |
 |---|---|---|
-| Data Science | Notebook Google Colab | Análise estatística descritiva de dados orbitais (NASA/Celestrak) |
-| Agile Methodology | Documento + Pitch | Product Backlog, personas, requisitos da plataforma |
-| Database Design | Modelo relacional Oracle Data Modeler | DB de objetos orbitais, observações, alertas |
-| AR/VR | Objetos 3D Blender | Satélite, detritos, painel solar, anel orbital |
-| Network Architect | Infraestrutura | Pipeline de ingestão de dados de estações terrestres |
+| Data Science | Notebook Google Colab | Análise estatística descritiva de dados NDVI (Sentinel-2) + clima (INMET) por região agrícola brasileira |
+| Agile Methodology | Documento PDF + Pitch | Product Backlog, personas (produtor rural, analista de crédito, gestor de cooperativa), requisitos da plataforma |
+| Database Design | Modelo relacional Oracle | DB de propriedades rurais, observações satelitais, análises de risco, contratos de crédito |
+| AR/VR | Objetos 3D Blender | Satélite Sentinel-2, talhão 3D com visualização de NDVI, drone de monitoramento |
+| Network Architect | Infraestrutura | Pipeline de ingestão de imagens Sentinel-2 + API de alertas para clientes |
+
+---
+
+## Mercado e Modelo de Negócio
+
+### Mercado Endereçável
+- Crédito rural Brasil: **R$300B+/ano** (Plano Safra 2025/2026)
+- Prêmios seguros rurais: **R$16B+/ano** (Susep 2024)
+- Mercado global precision agriculture: **USD 14B** (2025), crescendo 13%/ano
+- Regulação BACEN 4.945/2021: bancos DEVEM avaliar risco climático em crédito
+
+### Clientes (quem paga)
+| Segmento | Dor | Disposição a pagar |
+|---|---|---|
+| Fintechs crédito rural (Agrolend, Traive, CreditAgro) | Risco de inadimplência por sinistro climático sem visibilidade antecipada | API por consulta (R$0,50–R$5 por análise de talhão) |
+| Cooperativas agrícolas (Coamo, C.Vale, Cocamar) | Não têm forecast de safra dos cooperados para planejar captação e venda | SaaS (R$2–R$5/ha/safra) |
+| Seguradoras rurais (Allianz, Swiss Re, IRB) | Scoring de risco impreciso → sinistros mal precificados | SaaS por portfólio (R$15–R$50k/mês) |
+| Tradings (Cargill, Bunge, ADM) | Incerteza de volume de safra para hedge de commodities | Relatório por região (R$5k–R$20k/trimestre) |
 
 ---
 
 ## Stack Técnica
 
 - **Linguagem**: Python 3.11+
-- **ML/DL**: scikit-learn, TensorFlow/Keras, XGBoost
-- **Dados**: NASA Open Data, CelesTrak TLE, Space-Track.org
-- **Análise**: pandas, numpy, matplotlib, seaborn, plotly
-- **Orbital**: skyfield, sgp4
-- **DB**: Oracle (GS) / SQLite (dev)
+- **Satellite**: sentinelsat, rasterio, earthengine-api (Google Earth Engine)
+- **ML/DL**: scikit-learn, TensorFlow/Keras, XGBoost, LightGBM
+- **Análise**: pandas, numpy, matplotlib, seaborn, plotly, geopandas
+- **Índices vegetação**: NDVI, EVI, SAVI (calculados via bandas Sentinel-2)
+- **DB**: Oracle 19c (GS) / SQLite (dev)
 - **3D**: Blender 4.x (AR/VR deliverable)
+- **Plataforma**: Google Colab (Data Science deliverable)
 
 ---
 
 ## Modelos AI/ML
 
-### 1. Predição de Trajetória (LSTM)
-- Input: histórico TLE de 30 dias (posição, velocidade, parâmetros orbitais)
-- Output: posição prevista em t+1h, t+6h, t+24h
-- Referência: [Space-Debris LSTM](https://github.com/KVB02/Space-Debris-Detection-Tracking-and-Impact-Analysis)
+### 1. Saúde da Lavoura — NDVI via Sentinel-2 (CV/Índice)
+- Input: Bandas B4 (vermelho) e B8 (NIR) do Sentinel-2
+- Output: Mapa NDVI por talhão (0 a 1 — quanto maior, mais saudável)
+- Análise estatística: distribuição do NDVI por cultura, outliers, tendência temporal
 
-### 2. Detecção de Anomalia Orbital (Autoencoder)
-- Input: série temporal de parâmetros keplerianos
-- Output: score de anomalia (decay anômalo, manobra não declarada)
-- Referência: [Satellite Telemetry Anomaly Detection](https://github.com/sapols/Satellite-Telemetry-Anomaly-Detection)
+### 2. Predição de Produtividade (LSTM)
+- Input: Série temporal de NDVI (30–60 dias) + variáveis climáticas (temperatura, precipitação, umidade)
+- Output: Estimativa de produtividade (sacas/ha) para t+30, t+60 dias
+- Referência: [wildfire-risk-forecast](https://github.com/Sivarohitk/wildfire-risk-forecast) — mesmo padrão temporal
 
-### 3. Classificação de Risco de Colisão (Random Forest)
-- Input: distância mínima de aproximação (Miss Distance), velocidade relativa, incerteza orbital
-- Output: classe de risco (VERDE/AMARELO/VERMELHO) + probabilidade
-- Referência: [SpaceTrash ML](https://github.com/Apliz/SpaceTrash)
+### 3. Scoring de Risco (Random Forest / XGBoost)
+- Input: NDVI médio, desvio padrão, precipitação acumulada, temperatura máxima, histórico de sinistros
+- Output: Score de risco 0–100 + classe (BAIXO/MÉDIO/ALTO) por propriedade
+- Usado por fintechs e seguradoras no processo de crédito/underwriting
 
-### 4. Análise de Cluster de Detritos (DBSCAN/K-Means)
-- Input: coordenadas orbitais (altitude × inclinação × RAAN)
-- Output: clusters de regiões de maior densidade de detritos
-- Usado na análise descritiva (Data Science deliverable)
+### 4. Segmentação de Perfis (K-Means)
+- Input: Variáveis orbitais: NDVI médio da safra, variabilidade, área plantada, altitude, bioma
+- Output: Clusters de propriedades similares (4–6 grupos) para personalização de produtos
 
 ---
 
-## Datasets
+## Datasets (todos gratuitos)
 
 | Dataset | Fonte | Uso |
 |---|---|---|
-| TLE Historical Data | CelesTrak | Treino LSTM, análise orbital |
-| Space Debris Statistics | ESA DISCOS | Estatística descritiva |
-| Conjunction Data Messages | Space-Track.org | Treino classificador de risco |
-| NEO Close Approaches | NASA CNEOS | Análise de objetos próximos |
-| SATCAT (Satellite Catalog) | CelesTrak | Base de dados de objetos rastreados |
+| Imagens Sentinel-2 L2A | ESA Copernicus (via Google Earth Engine) | Cálculo NDVI, classificação de cultura |
+| Landsat 8/9 OLI | NASA EarthData | NDVI histórico, séries longas |
+| BDMEP/INMET | INMET Brasil | Temperatura, precipitação, umidade relativa |
+| MapBiomas Coleção 9 | MapBiomas (ESALQ/INPE) | Classificação uso do solo, identificação de cultura |
+| IBGE Censo Agropecuário | IBGE | Área plantada, produtividade histórica por município |
+| PRODES/DETER | INPE | Desmatamento (risco regulatório) |
+
+**Dataset principal para o notebook**: Índices NDVI calculados de imagens Sentinel-2 para região agrícola do Paraná/Mato Grosso + dados INMET de 3–5 anos = 50.000+ registros de observações por talhão.
 
 ---
 
 ## Estrutura do Repositório
 
 ```
-astrosentinel/
-├── data/                    # datasets brutos e processados
+agrosat/
+├── data/                          # datasets brutos e processados
 │   ├── raw/
+│   │   ├── sentinel2/             # imagens .tif por tile
+│   │   ├── inmet/                 # série histórica de clima
+│   │   └── mapbiomas/             # shapefile de uso do solo
 │   └── processed/
-├── notebooks/               # Google Colab notebooks (Data Science)
-│   ├── 01_eda_estatistica_descritiva.ipynb
+│       ├── ndvi_series.csv        # série temporal NDVI por talhão
+│       └── risk_dataset.csv       # dataset para modelos ML
+├── notebooks/                     # Google Colab notebooks (Data Science)
+│   ├── 01_contextualizacao.ipynb
 │   ├── 02_preparacao_dados.ipynb
-│   └── 03_modelos_ml.ipynb
+│   ├── 03_estatistica_descritiva.ipynb
+│   ├── 04_visualizacoes.ipynb
+│   ├── 05_modelos_ml.ipynb
+│   └── 06_perguntas_negocio.ipynb
 ├── src/
-│   ├── ingestion/           # coleta TLE e dados NASA
-│   ├── models/              # LSTM, Autoencoder, RF
-│   ├── api/                 # endpoints REST (futuro)
+│   ├── ingestion/                 # coleta Sentinel-2 e INMET
+│   ├── ndvi/                      # cálculo de índices vegetação
+│   ├── models/                    # LSTM, RF, XGBoost, K-Means
 │   └── utils/
-├── database/                # scripts SQL Oracle (Database Design)
+├── database/                      # scripts SQL Oracle (Database Design)
 │   ├── ddl/
+│   │   └── agrosat_schema.sql
 │   └── dml/
-├── docs/                    # documentação Agile, requisitos
+├── docs/                          # documentação Agile, requisitos
 │   ├── product_backlog.md
 │   ├── personas.md
 │   └── requisitos.md
-└── blender/                 # arquivos .blend (AR/VR)
+└── blender/                       # arquivos .blend (AR/VR)
+    └── satellite_talhao.blend
 ```
 
 ---
 
 ## Personas
 
-### 1. Engenheira de Operações de Satélite
-**Nome**: Dra. Ana Ferreira | **Idade**: 34 | **Organização**: Operadora privada de constelação LEO
-**Dor**: Recebe alertas de conjunção genéricos com 24h de antecedência; janela de manobra insuficiente
-**Ganho com AstroSentinel**: Alertas com 72h de antecedência + probabilidade de colisão + janela de manobra sugerida
+### 1. Analista de Crédito Rural
+**Nome**: João Ribeiro | **Idade**: 31 | **Organização**: Fintech de crédito rural (Agrolend)
+**Dor**: Aprova crédito olhando só para histórico financeiro; não sabe se a lavoura está saudável; inadimplência dispara quando tem seca
+**Ganho com AgroSat**: Score de risco por talhão integrado ao processo de análise → reduz inadimplência em 15–25%
 
-### 2. Analista de Política Espacial
-**Nome**: Carlos Mendez | **Idade**: 45 | **Organização**: Agência espacial governamental
-**Dor**: Sem visibilidade sobre densidade de detritos por região orbital; difícil justificar regulação
-**Ganho com AstroSentinel**: Relatórios estatísticos regionais + tendências de crescimento de detritos
+### 2. Gestora de Cooperativa
+**Nome**: Ana Paula Mendes | **Idade**: 44 | **Organização**: Cooperativa agrícola (C.Vale)
+**Dor**: Não sabe quanto vão colher os cooperados até 30 dias antes da safra → não consegue travar preço de venda, perde margem
+**Ganho com AgroSat**: Forecast de safra com 60–90 dias de antecedência → hedge eficiente, planejamento de armazenagem
 
-### 3. Pesquisador de Sustentabilidade Orbital
-**Nome**: Prof. Li Wei | **Idade**: 52 | **Organização**: Universidade
-**Dor**: Dados de TLE fragmentados em fontes diferentes; análise manual demorada
-**Ganho com AstroSentinel**: API unificada + notebooks prontos + datasets limpos
+### 3. Produtor Rural
+**Nome**: Carlos Motta | **Idade**: 52 | **Organização**: Fazenda própria (2.000 ha, soja/milho, MT)
+**Dor**: Contrata seguro sem saber se está pagando preço justo; não monitora estresse hídrico em tempo real; depende de visita técnica cara
+**Ganho com AgroSat**: App mostra saúde da lavoura por talhão, alerta precoce de estresse hídrico, comparação com vizinhos
 
 ---
 
 ## Banco de Dados — Entidades Principais
 
-```
-ORBITAL_OBJECT (id, norad_id, name, type, launch_date, status, country_code)
-OBSERVATION    (id, object_id, epoch, tle_line1, tle_line2, altitude_km, inclination_deg)
-CONJUNCTION    (id, primary_id, secondary_id, tca_time, miss_distance_km, collision_prob)
-RISK_ALERT     (id, conjunction_id, severity, generated_at, acknowledged, operator_notified)
-SATELLITE_OP   (id, name, country, contact_email, satellites_count)
-DECAY_FORECAST (id, object_id, predicted_reentry, confidence_pct, model_version)
+```sql
+-- 6 tabelas obrigatórias (Database Design)
+PROPERTY        (id, owner_id, area_ha, biome, municipality, state, lat, lon)
+CROP_RECORD     (id, property_id, crop_type, planting_date, harvest_date, expected_yield_bags_ha)
+SATELLITE_OBS   (id, property_id, obs_date, satellite, ndvi_mean, ndvi_std, evi_mean, cloud_cover_pct)
+CLIMATE_DATA    (id, municipality, obs_date, temp_max_c, temp_min_c, precipitation_mm, humidity_pct)
+RISK_ANALYSIS   (id, property_id, analysis_date, risk_score, risk_class, predicted_yield, model_version)
+CREDIT_CONTRACT (id, property_id, creditor, amount_brl, interest_rate, term_months, risk_analysis_id)
 ```
 
 ---
 
 ## Referências GitHub
 
-- [awesome-space](https://github.com/orbitalindex/awesome-space) — curadoria de recursos espaciais
-- [SpaceTrash](https://github.com/Apliz/SpaceTrash) — ML para detritos LEO
-- [AstroCleanAI](https://github.com/Izzah-Khursheed/AstroCleanAI) — YOLOv5 + XGBoost para detritos
-- [Satellite Telemetry Anomaly Detection](https://github.com/sapols/Satellite-Telemetry-Anomaly-Detection) — autoencoders para telemetria
-- [NASA GIBS ML](https://github.com/nasa-gibs/gibs-ml) — ML para imagens satelitais NASA
-- [Space-Debris LSTM](https://github.com/KVB02/Space-Debris-Detection-Tracking-and-Impact-Analysis) — LSTM + GBDT para trajetória
+- [wildfire-risk-forecast](https://github.com/Sivarohitk/wildfire-risk-forecast) — pipeline LightGBM + Streamlit com dados NASA (padrão similar)
+- [FlameForecast](https://github.com/jbric16/FlameForecast_Project) — CNN + LSTM para dados satelitais NASA
+- [nasa-wildfires](https://github.com/datadesk/nasa-wildfires) — ingestão dados NASA FIRMS (mesmo padrão de API)
+- [satellite-image-deep-learning](https://github.com/satellite-image-deep-learning/techniques) — técnicas DL para imagens satelitais
 
 ---
 
 ## Regras de Desenvolvimento
 
-- Todo código Python deve ser executável no Google Colab (sem dependências locais pesadas)
-- Notebooks devem ter células Markdown explicativas entre cada seção (requisito Data Science)
-- SQL deve ser compatível com Oracle 19c (requisito Database Design)
-- Commits em inglês, código comentado em português (equipe PT-BR)
-- Usar dados públicos reais — sem dados sintéticos puros (mínimo: dataset real + enriquecimento)
+- Todo código Python deve rodar no Google Colab sem dependências locais pesadas
+- Notebooks têm células Markdown entre cada seção (requisito Data Science)
+- SQL compatível com Oracle 19c (requisito Database Design)
+- Commits em inglês, comentários em português
+- Dados reais: usar série NDVI calculada de Sentinel-2 real ou dataset Kaggle equivalente
 
 ---
 
 ## Entrega e Prazos
 
-- **Data limite**: 09/06/2026
-- **Data Science**: Google Colab, link público com execução disponível
-- **Agile**: PDF com documento completo + link YouTube do pitch (máx 5 min)
-- **Database**: PDF com DDL + modelos Oracle Data Modeler (conceitual + lógico)
-- **AR/VR**: PDF com 13+ prints Blender, cada um com legenda
-- **Network**: (aguardando briefing completo)
+- **Data limite**: 09/06/2026 (23h59)
+- **Data Science**: Google Colab público + executável
+- **Agile**: PDF com documento + link YouTube pitch (máx 5 min)
+- **Database**: PDF com DDL + Oracle Data Modeler (conceitual + lógico)
+- **AR/VR**: PDF com 13+ prints Blender com legendas
 
 ---
 
