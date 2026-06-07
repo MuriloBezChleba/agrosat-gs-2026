@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: agrosat-api
+    runtime: node
+    rootDir: python_gs/web
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 10000
+    plan: free
