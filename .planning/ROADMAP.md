@@ -3,8 +3,8 @@
 **Project:** AgroSat — Plataforma de Inteligência Agrícola por Satélite
 **Milestone:** Global Solution 2026 — Entrega 09/06/2026
 **Generated:** 2026-05-26 (updated after pivot from AstroSentinel)
-**Granularity:** Standard (6 phases)
-**Coverage:** 47/47 v1 requirements mapped
+**Granularity:** Standard (6 phases + Python GS)
+**Coverage:** 47/47 v1 requirements mapped + Python GS arquitetado
 
 ---
 
@@ -16,6 +16,7 @@
 - [ ] **Phase 4: Database Design** — Modelo Oracle 6 tabelas, DDL, diagramas conceitual e lógico
 - [ ] **Phase 5: Agile Documentation** — Personas, requisitos, backlog 12+ US, pitch video
 - [ ] **Phase 6: 3D Modeling & Final Delivery** — Blender satélite + talhão, 13+ prints, PDFs finais
+- [ ] **Phase 7: Python GS (Estruturas de Dados)** — AgroSat CLI: pilha + fila + lista ligada + busca + ordenação + terminal Rich
 
 ---
 
@@ -111,6 +112,7 @@
 | 4. Database Design | 0/? | Not started | - |
 | 5. Agile Documentation | 0/? | Not started | - |
 | 6. 3D Modeling & Final Delivery | 0/? | Not started | - |
+| 7. Python GS — AgroSat CLI | 1/4 fases (arquitetado) | Planejado | - |
 
 ---
 
